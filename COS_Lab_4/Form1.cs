@@ -12,12 +12,16 @@ namespace COS_Lab_4
 {
     public partial class Form1 : Form
     {
-        string[] swings = {"2", "2"}, frequences = {"2", "2" }, phases = {"2", "3" };
-        int N = 256;
-
         public Form1()
         {
             InitializeComponent();
+
+            cbbxN.Items.Add("64");
+            cbbxN.Items.Add("128");
+            cbbxN.Items.Add("256");
+            cbbxN.Items.Add("512");
+            cbbxN.Items.Add("1024");
+            cbbxN.Items.Add("2048");
 
             cbbxType.Items.Add("Взаимная корреляция");
             cbbxType.Items.Add("Автокорреляция");
@@ -67,6 +71,41 @@ namespace COS_Lab_4
             signalChart.Series["2"].Points.Clear();
             signalChart.Series["3"].Points.Clear();
 
+            int N = 0;
+            string[] swings = { }, frequences = { }, phases = { };
+
+            string msg = "Ошибка ввода";
+            try
+            {
+                string swingsText = txtSwing.Text;
+                swings = swingsText.Split(' ');
+                string frequencesText = txtFrequency.Text;
+                frequences = frequencesText.Split(' ');
+                string phasesText = txtPhase.Text;
+                phases = phasesText.Split(' ');
+                N = Int32.Parse(cbbxN.Text);
+
+                if (swings.Count() != frequences.Count() || frequences.Count() != phases.Count() || phases.Count() != swings.Count() || phases.Count() != 2)
+                {
+                    msg = "Не весь ввод!";
+                    throw new Exception("Не весь ввод");
+                }
+
+                /*if (!IsAccessibleFrequencesLogic(frequences, N))
+                    {
+                        msg = "Логические ограничения!";
+                        throw new Exception("Логические ограничения");
+                    }*/
+            }
+            catch
+            {
+                MessageBox.Show(
+                    msg,
+                    "Сообщение");
+                return;
+            }
+
+
             double[] ordinates = new double[N];
             double[] ordinates2 = new double[N];
 
@@ -83,8 +122,19 @@ namespace COS_Lab_4
                     ShowCharts(ordinates, ordinates2, N, 1);
                     break;
             }
+        }
 
-            
+        private bool IsAccessibleFrequencesLogic(string[] freq, int N)
+        {
+            bool flag = true;
+            int i = 0;
+            while (flag && i < freq.Count())
+            {
+                flag &= (Int32.Parse(freq[i]) > 1);
+                flag &= (N > 2 * Int32.Parse(freq[i]));
+                i++;
+            }
+            return flag;
         }
     }
 }
