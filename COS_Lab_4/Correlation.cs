@@ -27,6 +27,7 @@ namespace COS_Lab_4
             int end;
             int index;
 
+            //собирает сигналы навстречу друг другу до середины - получает ненормализованные значения корреляции
             for (int i = 0; i < L; i++)
             {
                 Complex sum = 0;
@@ -59,15 +60,17 @@ namespace COS_Lab_4
                     index1--;
                     index2++;
                 }
-
+                //значения корреляция
                 correlation[i] = sum;
             }
-
+            //нормализует
             return Normalize(correlation);
         }
 
         public static Complex[] FastCrossCorrelation(double[] signal1, double[] signal2)
         {
+            //быстрое преобр. Фурье
+            //сигнал на 2 половины (рекурсия с условием выхода?)
             int L = signal1.Length + signal2.Length;
 
             Complex[] complexSignal1 = new Complex[L];
@@ -108,6 +111,7 @@ namespace COS_Lab_4
 
         private static Complex[] Normalize(Complex[] values)
         {
+            //находим максимальное значение среди реальных - и все значения полученного спектра делить на это число
             Complex[] result = new Complex[values.Length];
 
             double max = values.Max(c => Math.Abs(c.Real));
@@ -117,6 +121,7 @@ namespace COS_Lab_4
                 result[i] = values[i] / max;
             }
 
+            //а это уже вывод
             return result;
         }
 

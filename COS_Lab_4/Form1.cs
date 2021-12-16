@@ -110,6 +110,7 @@ namespace COS_Lab_4
 
             int N = 0;
             string[] swings = { }, frequences = { }, phases = { };
+            string type;
 
             string msg = "Ошибка ввода";
             try
@@ -121,8 +122,9 @@ namespace COS_Lab_4
                 string phasesText = txtPhase.Text;
                 phases = phasesText.Split(' ');
                 N = Int32.Parse(cbbxN.Text);
+                type = cbbxType.Text;
 
-                if (swings.Count() != frequences.Count() || frequences.Count() != phases.Count() || phases.Count() != swings.Count() || phases.Count() != 2)
+                if (swings.Count() != frequences.Count() || frequences.Count() != phases.Count() || phases.Count() != swings.Count())
                 {
                     msg = "Не весь ввод!";
                     throw new Exception("Не весь ввод");
@@ -155,7 +157,7 @@ namespace COS_Lab_4
             long time = 1;
             long fastTime = 1;
 
-            string type = cbbxType.Text;
+            
             switch (type)
             {
                 case "Взаимная корреляция":
@@ -191,7 +193,7 @@ namespace COS_Lab_4
 
             ShowCharts(crossCorrelation, fastCrossCorrelation, N, 2);
             txtStraightCorr.Text = time.ToString();
-            txtFastCorr.Text = time.ToString();
+            txtFastCorr.Text = fastTime.ToString();
             txtPercent.Text = (fastTime * 100 / time).ToString();
 
         }
