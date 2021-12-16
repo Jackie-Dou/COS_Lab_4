@@ -120,7 +120,7 @@ namespace COS_Lab_4
             return result;
         }
 
-        private static double[] GetShiftedSignal(double[] signal, int shift)
+        public static double[] GetShiftedSignal(double[] signal, int shift)
         {
             double[] shiftedSignal = new double[signal.Length];
 
